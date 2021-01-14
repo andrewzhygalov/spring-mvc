@@ -18,11 +18,12 @@ public class CarController {
 	CarService carService;
 	
 	@GetMapping("/cars")
-	public String printCars(@RequestParam("count") int n, ModelMap model) {
-		if(5 <= n)
-			model.addAttribute("cars", carService.getCars());
+	public String printCars(@RequestParam(name = "count", required=false) Integer n, ModelMap model) {
+		var cars =  carService.getCars();
+		if(n == null || 5 <= n)
+			model.addAttribute("cars", cars);
 		else 
-			model.addAttribute("cars", carService.getCars().subList(0, n));
+			model.addAttribute("cars", cars.subList(0, n));
 		return "cars";
 	}
 }
